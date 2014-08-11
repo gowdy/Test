@@ -200,6 +200,13 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
         met.genMET()->pt(),
         met.shiftedPt(pat::MET::JetEnUp), met.shiftedPt(pat::MET::JetEnDown));
 
+    edm::Handle<pat::PackedCandidateCollection> lost;
+    iEvent.getByToken(lostToken_, lost);
+    for ( const pat::PackedCandidate &cand : *lost ) {
+      printf("lostTracks: pt %5.1f, phi %+4.2f\n",
+	     cand.pt(), cand.phi() );
+    }
+
     printf("\n");
 
 }

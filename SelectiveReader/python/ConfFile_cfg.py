@@ -18,15 +18,16 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         #'file:myfile.root'
         #'file:/afs/cern.ch/cms/Tutorials/TWIKI_DATA/TTJets_8TeV_53X.root'
-        'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
-        'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
-        'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
-        'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
-        'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root'
-        #'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
-        #'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
-        #'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
-        #'file:/var/tmp/gowdy/patTuple_mini_ZH.root'
+        ##'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
+        ##'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
+        ##'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
+        ##'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root',
+        ##'root://localhost//var/tmp/gowdy/patTuple_mini_ZH.root'
+        'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
+        'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
+        'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
+        'file:/var/tmp/gowdy/patTuple_mini_ZH.root',
+        'file:/var/tmp/gowdy/patTuple_mini_ZH.root'
     ),
     duplicateCheckMode = cms.untracked.string( "noDuplicateCheck" )
 )
