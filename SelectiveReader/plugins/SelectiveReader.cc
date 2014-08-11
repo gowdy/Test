@@ -128,6 +128,7 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
     iEvent.getByToken(vtxToken_, vertices);
     if (vertices->empty()) return; // skip the event if no PV found
     const reco::Vertex &PV = vertices->front();
+    //printf("vertex: (%f,%f,%f)", PV.position().x(), PV.position().y(), PV.position().z() );
 
     edm::Handle<pat::MuonCollection> muons;
     iEvent.getByToken(muonToken_, muons);
@@ -136,7 +137,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
         printf("muon with pt %4.1f, dz(PV) %+5.3f, POG loose id %d, tight id %d\n",
                 mu.pt(), mu.muonBestTrack()->dz(PV.position()), mu.isLooseMuon(), mu.isTightMuon(PV));
     }
-
 
     edm::Handle<pat::ElectronCollection> electrons;
     iEvent.getByToken(electronToken_, electrons);
@@ -180,7 +180,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
             }
         }
     }
-
 
     edm::Handle<pat::JetCollection> fatjets;
     iEvent.getByToken(fatjetToken_, fatjets);
