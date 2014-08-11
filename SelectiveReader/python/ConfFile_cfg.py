@@ -39,7 +39,10 @@ process.demo = cms.EDAnalyzer('SelectiveReader',
     photons = cms.InputTag("slimmedPhotons"),
     jets = cms.InputTag("slimmedJets"),
     fatjets = cms.InputTag("slimmedJetsCA8"),
-    mets = cms.InputTag("slimmedMETs")
+    mets = cms.InputTag("slimmedMETs"),
+    tracks = cms.InputTag("lostTracks"),
+    packed = cms.InputTag("packedPFCandidates"),
+    packedGen = cms.InputTag("packedGenParticles")
 )
 
 

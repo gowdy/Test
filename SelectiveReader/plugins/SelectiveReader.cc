@@ -38,6 +38,7 @@
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 
 
 //
@@ -71,6 +72,10 @@ class SelectiveReader : public edm::EDAnalyzer {
       edm::EDGetTokenT<pat::JetCollection> jetToken_;
       edm::EDGetTokenT<pat::JetCollection> fatjetToken_;
       edm::EDGetTokenT<pat::METCollection> metToken_;
+      edm::EDGetTokenT<pat::PackedCandidateCollection> lostToken_;
+      edm::EDGetTokenT<pat::PackedCandidateCollection> packedToken_;
+      edm::EDGetTokenT<pat::PackedGenParticleCollection> packedGenToken_;
+
 };
 
 //
@@ -92,7 +97,10 @@ SelectiveReader::SelectiveReader(const edm::ParameterSet& iConfig):
     photonToken_(consumes<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photons"))),
     jetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jets"))),
     fatjetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("fatjets"))),
-    metToken_(consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("mets")))
+    metToken_(consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("mets"))),
+    lostToken_(consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("tracks"))),
+    packedToken_(consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("packed"))),
+    packedGenToken_(consumes<pat::PackedGenParticleCollection>(iConfig.getParameter<edm::InputTag>("packedGen")))
 {
    //now do what ever initialization is needed
 
@@ -130,8 +138,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
     }
 
 
-    printf("Done with Muons\n");
-
     edm::Handle<pat::ElectronCollection> electrons;
     iEvent.getByToken(electronToken_, electrons);
     for (const pat::Electron &el : *electrons) {
@@ -139,8 +145,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
         printf("elec with pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes), lost hits %d, pass conv veto %d\n",
                     el.pt(), el.superCluster()->eta(), el.sigmaIetaIeta(), el.full5x5_sigmaIetaIeta(), el.gsfTrack()->trackerExpectedHitsInner().numberOfLostHits(), el.passConversionVeto());
     }
-
-    printf("Done with Electrons\n");
 
     edm::Handle<pat::PhotonCollection> photons;
     iEvent.getByToken(photonToken_, photons);
@@ -150,20 +154,15 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 	       pho.pt(), pho.superCluster()->eta(), pho.sigmaIetaIeta() );//, pho.full5x5_sigmaIetaIeta());
     }
 
-    printf("Done with Photons\n");
-
     edm::Handle<pat::TauCollection> taus;
     iEvent.getByToken(tauToken_, taus);
     for (const pat::Tau &tau : *taus) {
       if (tau.pt() < 20) continue;
-      printf("tau is bigger than 20\n");
       printf("tau  with pt %4.1f, dxy signif %.1f, ID(byMediumCombinedIsolationDeltaBetaCorr3Hits) %.1f, lead candidate pt %.1f, pdgId %d \n",
 	     tau.pt(), 0.0, //tau.dxy_Sig(),
 	     tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"),
 	     0.0,0 );//tau.leadCand()->pt(), tau.leadCand()->pdgId());
     }
-
-    printf("Done with Taus\n");
 
     edm::Handle<pat::JetCollection> jets;
     iEvent.getByToken(jetToken_, jets);
@@ -183,8 +182,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
     }
 
 
-    printf("Done with normal Jets\n");
-
     edm::Handle<pat::JetCollection> fatjets;
     iEvent.getByToken(fatjetToken_, fatjets);
     for (const pat::Jet &j : *fatjets) {
@@ -195,8 +192,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 	       0.0,0.0,0.0,0.0);//j.userFloat("ak8PFJetsCHSPrunedLinks"), j.userFloat("ak8PFJetsCHSTrimmedLinks"), j.userFloat("ak8PFJetsCHSFilteredLinks"), j.userFloat("cmsTopTagPFJetsCHSLinksAK8"));
     }
 
-    printf("Done with Fat Jets\n");
-
     edm::Handle<pat::METCollection> mets;
     iEvent.getByToken(metToken_, mets);
     const pat::MET &met = mets->front();
@@ -205,7 +200,6 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
         met.genMET()->pt(),
         met.shiftedPt(pat::MET::JetEnUp), met.shiftedPt(pat::MET::JetEnDown));
 
-    printf("Done with METs\n");
     printf("\n");
 
 }
