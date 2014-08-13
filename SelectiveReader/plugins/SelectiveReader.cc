@@ -90,17 +90,17 @@ class SelectiveReader : public edm::EDAnalyzer {
 // constructors and destructor
 //
 SelectiveReader::SelectiveReader(const edm::ParameterSet& iConfig):
-    vtxToken_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertices"))),
-    muonToken_(consumes<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muons"))),
-    electronToken_(consumes<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electrons"))),
-    tauToken_(consumes<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("taus"))),
-    photonToken_(consumes<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photons"))),
-    jetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jets"))),
-    fatjetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("fatjets"))),
-    metToken_(consumes<pat::METCollection>(iConfig.getParameter<edm::InputTag>("mets"))),
-    lostToken_(consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("tracks"))),
-    packedToken_(consumes<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("packed"))),
-    packedGenToken_(consumes<pat::PackedGenParticleCollection>(iConfig.getParameter<edm::InputTag>("packedGen")))
+    vtxToken_(mayConsume<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertices"))),
+    muonToken_(mayConsume<pat::MuonCollection>(iConfig.getParameter<edm::InputTag>("muons"))),
+    electronToken_(mayConsume<pat::ElectronCollection>(iConfig.getParameter<edm::InputTag>("electrons"))),
+    tauToken_(mayConsume<pat::TauCollection>(iConfig.getParameter<edm::InputTag>("taus"))),
+    photonToken_(mayConsume<pat::PhotonCollection>(iConfig.getParameter<edm::InputTag>("photons"))),
+    jetToken_(mayConsume<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jets"))),
+    fatjetToken_(mayConsume<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("fatjets"))),
+    metToken_(mayConsume<pat::METCollection>(iConfig.getParameter<edm::InputTag>("mets"))),
+    lostToken_(mayConsume<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("tracks"))),
+    packedToken_(mayConsume<pat::PackedCandidateCollection>(iConfig.getParameter<edm::InputTag>("packed"))),
+    packedGenToken_(mayConsume<pat::PackedGenParticleCollection>(iConfig.getParameter<edm::InputTag>("packedGen")))
 {
    //now do what ever initialization is needed
 
