@@ -206,6 +206,20 @@ SelectiveReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 	     cand.pt(), cand.phi() );
     }
 
+    edm::Handle<pat::PackedCandidateCollection> packed;
+    iEvent.getByToken(packedToken_, packed);
+    for ( const pat::PackedCandidate &cand : *packed ) {
+      printf("packedCand: pt %5.1f, phi %+4.2f\n",
+	     cand.pt(), cand.phi() );
+    }
+
+    edm::Handle<pat::PackedGenParticleCollection> gen;
+    iEvent.getByToken(packedGenToken_, gen);
+    for ( const pat::PackedGenParticle &cand : *gen ) {
+      printf("PackedGenPart: pt %5.1f, phi %+4.2f\n",
+	     cand.pt(), cand.phi() );
+    }
+
     printf("\n");
 
 }
